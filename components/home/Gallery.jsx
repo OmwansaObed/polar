@@ -31,7 +31,7 @@ const galleryItems = [
   {
     id: 1,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsTlVwRqhP2xF5ZDe96vLY8dqVXHfkSMWOURai",
     category: "Events",
     title: "80s Retro Night",
     description: "Amazing turnout for our themed skating event",
@@ -39,8 +39,9 @@ const galleryItems = [
   {
     id: 2,
     type: "video",
-    src: "/api/placeholder/400/300",
-    videoSrc: "/api/placeholder/video",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgstdhF9jv86SDO0wAJLkBeCZyufNKI7EcYlMUa",
+    videoSrc:
+      "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsf4K3wjsFpPIviGdJUYmKACn70MX5tkS4Z1gN",
     category: "Skating",
     title: "Speed Skating Demo",
     description: "Professional speed skating demonstration",
@@ -48,7 +49,7 @@ const galleryItems = [
   {
     id: 3,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgshDeKlDWOgnEGBm2dQRVFaUDzbYWLukvh0Xo6",
     category: "Kids",
     title: "Kids Learning Session",
     description: "Children's skating workshop in action",
@@ -56,7 +57,7 @@ const galleryItems = [
   {
     id: 4,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsrAna4C6hnUQ2YbpLCwVMBySr0o1Ac8KNxjgq",
     category: "Facilities",
     title: "Main Skating Rink",
     description: "Our spacious main skating area",
@@ -64,7 +65,7 @@ const galleryItems = [
   {
     id: 5,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsONJSNzXphPFIG7NjAYaSyEcHkrnLV8BeTm0Q",
     category: "Competitions",
     title: "Annual Championship",
     description: "Intense competition moments",
@@ -72,8 +73,9 @@ const galleryItems = [
   {
     id: 6,
     type: "video",
-    src: "/api/placeholder/400/300",
-    videoSrc: "/api/placeholder/video",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgstwtniqv86SDO0wAJLkBeCZyufNKI7EcYlMUa",
+    videoSrc:
+      "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsken86g54wiHGuhz19NqFgJXR2CZI5tlvSy4V",
     category: "Events",
     title: "Birthday Party",
     description: "Special birthday celebration",
@@ -81,7 +83,7 @@ const galleryItems = [
   {
     id: 7,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsn5AZHBGo89xv6SqCtQIkNsHFbD57ldPaZ0JU",
     category: "Skating",
     title: "Advanced Techniques",
     description: "Learning advanced skating moves",
@@ -89,7 +91,7 @@ const galleryItems = [
   {
     id: 8,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsqqZqtckiLajDcXueyC6tZAbGdIO4hJVkovUY",
     category: "Facilities",
     title: "Rental Equipment",
     description: "High-quality skating equipment",
@@ -97,7 +99,7 @@ const galleryItems = [
   {
     id: 9,
     type: "image",
-    src: "/api/placeholder/400/300",
+    src: "https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsDPgdZk97yiRgAxF381jvCzhwuI9H50rtOK4Q",
     category: "Kids",
     title: "Family Fun Day",
     description: "Families enjoying skating together",

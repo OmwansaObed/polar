@@ -38,9 +38,9 @@ const features = [
 ];
 
 const stats = [
-  { number: "8+", label: "Years of Experience" },
+  { number: "2+", label: "Years of Experience" },
   { number: "15,000+", label: "Happy Customers" },
-  { number: "500+", label: "Events Hosted" },
+  { number: "50+", label: "Events Participated" },
   { number: "4.9/5", label: "Customer Rating" },
 ];
 

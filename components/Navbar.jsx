@@ -29,7 +29,7 @@ export default function Navbar() {
               />
             </div>
             <span className="font-bold text-xl lg:text-2xl bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
-              Polar
+              PolarClub
             </span>
           </div>
 

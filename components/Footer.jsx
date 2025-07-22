@@ -175,33 +175,29 @@ export default function Footer() {
                   size={18}
                 />
                 <div>
-                  <p className="text-gray-300 text-sm">
-                    Westlands Shopping Center
-                  </p>
-                  <p className="text-gray-300 text-sm">
-                    2nd Floor, Nairobi, Kenya
-                  </p>
+                  <p className="text-gray-300 text-sm">Virtual Office</p>
+                  <p className="text-gray-300 text-sm">Nairobi, Kenya</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-3">
                 <Phone className="text-rose-500 flex-shrink-0" size={18} />
                 <div>
-                  <p className="text-gray-300 text-sm">+254 700 123 456</p>
-                  <p className="text-gray-300 text-sm">+254 733 987 654</p>
+                  <p className="text-gray-300 text-sm">+254 794 909 991</p>
+                  <p className="text-gray-300 text-sm">+254 791 891 471</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-3">
                 <Mail className="text-rose-500 flex-shrink-0" size={18} />
-                <p className="text-gray-300 text-sm">info@Polar club.co.ke</p>
+                <p className="text-gray-300 text-sm">polarclub@gmail.com</p>
               </div>
 
               <div className="flex items-start space-x-3">
                 <Clock className="text-rose-500 mt-1 flex-shrink-0" size={18} />
                 <div>
-                  <p className="text-gray-300 text-sm">Mon-Fri: 10AM-10PM</p>
-                  <p className="text-gray-300 text-sm">Sat-Sun: 9AM-11PM</p>
+                  <p className="text-gray-300 text-sm">Mon-Fri: 8AM-7PM</p>
+                  <p className="text-gray-300 text-sm">Sat-Sun: 9AM-7PM</p>
                 </div>
               </div>
             </div>

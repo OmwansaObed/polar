@@ -112,7 +112,7 @@ export default function Events() {
       />
 
       {/* Featured Event */}
-      {upcomingEvents[0] && (
+      {/* {upcomingEvents[0] && (
         <MotionCard className="mb-12 bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-8 text-white overflow-hidden relative">
           <div className="absolute top-0 right-0 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-bl-2xl font-bold">
             FEATURED
@@ -172,10 +172,10 @@ export default function Events() {
             </div>
           </div>
         </MotionCard>
-      )}
+      )} */}
 
       {/* Other Events Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      {/* <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         {upcomingEvents.slice(1).map((event, index) => (
           <MotionCard
             key={event.id}
@@ -236,7 +236,7 @@ export default function Events() {
             </div>
           </MotionCard>
         ))}
-      </div>
+      </div> */}
 
       {/* Event Types */}
       <MotionDiv
@@ -245,7 +245,7 @@ export default function Events() {
       >
         <div className="text-center mb-12">
           <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Types of Events We Host
+            Types of Events Participate In
           </h3>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
             From casual family fun to competitive skating, we create memorable

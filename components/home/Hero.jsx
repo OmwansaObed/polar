@@ -1,6 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Play, Calendar, ArrowDown, Star, Users, Award } from "lucide-react";
+import {
+  Play,
+  Calendar,
+  ArrowDown,
+  Star,
+  Users,
+  Award,
+  Info,
+} from "lucide-react";
 
 // Mock framer-motion for demo (you'll use the real one)
 const motion = {
@@ -86,7 +94,7 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -95,7 +103,7 @@ export default function HeroSection() {
           <span className="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-2 text-sm font-medium mb-6">
             🎉 Grand Opening Special - 50% Off First Visit
           </span>
-        </motion.div>
+        </motion.div> */}
 
         <motion.h1
           initial={{ opacity: 0, x: -100 }}
@@ -144,8 +152,8 @@ export default function HeroSection() {
             whiletap={{ scale: 0.95 }}
             className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 flex items-center space-x-3"
           >
-            <Play size={20} />
-            <span>Watch Video</span>
+            <Info size={20} />
+            <span>About Us</span>
           </motion.button>
         </motion.div>
 

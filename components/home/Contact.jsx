@@ -33,19 +33,19 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Location",
-    details: ["Westlands Shopping Center", "2nd Floor, Nairobi", "Kenya"],
-    action: "Get Directions",
+    details: ["Virtual Office", "Nairobi", "Kenya"],
+    action: "Online Meet",
   },
   {
     icon: Phone,
     title: "Phone",
-    details: ["+254 700 123 456", "+254 733 987 654"],
+    details: ["+254 791 891 471", "+254 794 909 991"],
     action: "Call Now",
   },
   {
     icon: Mail,
     title: "Email",
-    details: ["info@Polarclub.co.ke", "bookings@Polarclub.co.ke"],
+    details: ["polarclub@gmail.com", "polarclub.vercel.app"],
     action: "Send Email",
   },
   {
@@ -360,7 +360,8 @@ export default function Contact() {
           <div className="bg-gradient-to-r from-rose-500 to-pink-600 text-white p-6">
             <h3 className="text-2xl font-bold mb-2">Find Us</h3>
             <p className="text-rose-100">
-              Just call us at +254 794 909 991 or email
+              Just call us at +254 794 909 991 or email us at
+              polarclub@gmail.com
             </p>
           </div>
 
