@@ -8,6 +8,7 @@ import {
   LogOut,
   Settings,
   ChevronDown,
+  DoorOpen,
 } from "lucide-react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
@@ -187,11 +188,6 @@ export default function Navbar() {
                     Sign In
                   </button>
                 </Link>
-                {/* <Link href="/auth/signup">
-                  <button className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-4 py-2 rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200">
-                    Sign Up
-                  </button>
-                </Link> */}
               </div>
             )}
           </div>
@@ -290,19 +286,12 @@ export default function Navbar() {
                   <Link href="/auth/signin">
                     <button
                       onClick={closeMenu}
-                      className="w-full px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg font-medium transition-colors duration-200"
+                      className="w-full px-4 py-3 text-gray-700 hover:bg-gray-50 border border-rose-500 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2"
                     >
-                      Sign In
+                      <DoorOpen size={20} />
+                      <span>Sign In</span>
                     </button>
                   </Link>
-                  {/* <Link href="/auth/signup">
-                    <button
-                      onClick={closeMenu}
-                      className="w-full bg-gray-200 text-gray-700 px-4 py-3 rounded-lg font-medium hover:bg-gray-300 transition-colors duration-200"
-                    >
-                      Sign Up
-                    </button>
-                  </Link> */}
                 </div>
               )}
             </div>

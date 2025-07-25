@@ -1,11 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { signIn, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Eye, EyeOff, Mail, Lock, Chrome, AlertCircle } from "lucide-react";
 
-export default function SignIn() {
+// Create a separate component for the sign-in logic that uses useSearchParams
+function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -255,5 +256,23 @@ export default function SignIn() {
         </p>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function SignInLoading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+    </div>
+  );
+}
+
+// Main component that wraps SignInForm in Suspense
+export default function SignIn() {
+  return (
+    <Suspense fallback={<SignInLoading />}>
+      <SignInForm />
+    </Suspense>
   );
 }
