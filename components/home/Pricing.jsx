@@ -1,12 +1,5 @@
-import { Check, Star, Crown, Users, Clock, Calendar } from "lucide-react";
-import {
-  SectionWrapper,
-  SectionTitle,
-  MotionDiv,
-  MotionCard,
-  MotionButton,
-  fadeInUp,
-} from "../motion/MotionComponents";
+import { Check, Star, Crown, Users, Calendar } from "lucide-react";
+import { SectionWrapper, SectionTitle } from "../motion/MotionComponents";
 
 const pricingPlans = [
   {
@@ -19,7 +12,6 @@ const pricingPlans = [
       "1-hour skating session",
       "Skate rental included",
       "Basic safety equipment",
-      // "Access to main rink",
       "Basic coaching available",
     ],
     popular: false,
@@ -36,10 +28,7 @@ const pricingPlans = [
       "Premium skate rental",
       "Full safety gear included",
       "Access to all rinks",
-      // "DJ music & lights",
-      // "Free locker",
       "intermediate coaching",
-      // "Refreshment discount",
     ],
     popular: true,
     color: "rose",
@@ -55,9 +44,6 @@ const pricingPlans = [
       "Professional skate fitting",
       "Personal skating coach",
       "Private rink time (30 mins)",
-      // "Premium sound system",
-      // "Complimentary refreshments",
-      // "Photo session included",
       "Priority booking",
       "Memorabe gifts",
     ],
@@ -87,8 +73,6 @@ const groupPackages = [
     includes: [
       "Private party area",
       "Skate rental for all",
-      // "Birthday cake",
-      // "Party host",
       "2-hour exclusive access",
     ],
   },
@@ -116,6 +100,18 @@ const membershipBenefits = [
   "Extended session times",
 ];
 
+function Card({ children, className }) {
+  return <div className={className}>{children}</div>;
+}
+
+function Button({ children, className, ...props }) {
+  return (
+    <button className={className} {...props}>
+      {children}
+    </button>
+  );
+}
+
 export default function Pricing() {
   return (
     <SectionWrapper id="pricing">
@@ -131,9 +127,8 @@ export default function Pricing() {
           const isPopular = plan.popular;
 
           return (
-            <MotionCard
+            <Card
               key={index}
-              delay={index * 0.1}
               className={`relative rounded-2xl border-2 p-8 ${
                 isPopular
                   ? "border-rose-500 bg-gradient-to-br from-rose-50 to-pink-50"
@@ -188,7 +183,7 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <MotionButton
+              <Button
                 className={`w-full py-3 rounded-full font-bold transition-all duration-300 ${
                   isPopular
                     ? "bg-gradient-to-r from-rose-500 to-pink-600 text-white hover:shadow-lg"
@@ -196,14 +191,14 @@ export default function Pricing() {
                 }`}
               >
                 Book Now
-              </MotionButton>
-            </MotionCard>
+              </Button>
+            </Card>
           );
         })}
       </div>
 
       {/* Group Packages Section */}
-      <MotionDiv className="mb-16" delay={0.4}>
+      <div className="mb-16">
         <div className="text-center mb-12">
           <h3 className="text-3xl font-bold text-gray-900 mb-4">
             Group Packages
@@ -215,9 +210,8 @@ export default function Pricing() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {groupPackages.map((pkg, index) => (
-            <MotionCard
+            <Card
               key={index}
-              delay={0.5 + index * 0.1}
               className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-xl transition-all duration-300"
             >
               <div className="text-center mb-6">
@@ -250,19 +244,16 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <MotionButton className="w-full py-3 rounded-full font-bold bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-300">
+              <Button className="w-full py-3 rounded-full font-bold bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:shadow-lg transition-all duration-300">
                 Get Quote
-              </MotionButton>
-            </MotionCard>
+              </Button>
+            </Card>
           ))}
         </div>
-      </MotionDiv>
+      </div>
 
       {/* Membership Benefits */}
-      <MotionDiv
-        className="bg-gradient-to-r from-purple-600 to-indigo-700 rounded-3xl p-8 md:p-12 text-white"
-        delay={0.8}
-      >
+      <div className="bg-gradient-to-r from-purple-600 to-indigo-700 rounded-3xl p-8 md:p-12 text-white mb-16">
         <div className="text-center mb-8">
           <Crown className="w-16 h-16 mx-auto mb-4 text-yellow-300" />
           <h3 className="text-3xl font-bold mb-4">Become a Member</h3>
@@ -285,14 +276,14 @@ export default function Pricing() {
         </div>
 
         <div className="text-center">
-          <MotionButton className="bg-white text-purple-600 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-all duration-300">
+          <Button className="bg-white text-purple-600 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-all duration-300">
             Join Membership
-          </MotionButton>
+          </Button>
         </div>
-      </MotionDiv>
+      </div>
 
       {/* Call to Action */}
-      <MotionDiv className="text-center mt-16" delay={1.0}>
+      <div className="text-center mt-16">
         <div className="bg-gray-50 rounded-2xl p-8">
           <Calendar className="w-12 h-12 mx-auto mb-4 text-rose-500" />
           <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -303,17 +294,17 @@ export default function Pricing() {
             skating at our premium facility.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <MotionButton className="bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold py-3 px-8 rounded-full hover:shadow-lg transition-all duration-300">
+            <Button className="bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold py-3 px-8 rounded-full hover:shadow-lg transition-all duration-300">
               Book Online
-            </MotionButton>
+            </Button>
             <a href="tel:+254794909991">
-              <MotionButton className="border-2 border-gray-300 text-gray-700 font-bold py-3 px-8 rounded-full hover:border-gray-400 transition-all duration-300">
+              <Button className="border-2 border-gray-300 text-gray-700 font-bold py-3 px-8 rounded-full hover:border-gray-400 transition-all duration-300">
                 Call Us: +254 794 909 991
-              </MotionButton>
+              </Button>
             </a>
           </div>
         </div>
-      </MotionDiv>
+      </div>
     </SectionWrapper>
   );
 }

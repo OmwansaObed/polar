@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Image from "next/image";
 import {
   X,
   Play,
@@ -9,14 +10,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import {
-  SectionWrapper,
-  SectionTitle,
-  MotionDiv,
-  MotionCard,
-  MotionImage,
-  fadeInUp,
-} from "../motion/MotionComponents";
 
 const categories = [
   "All",
@@ -106,6 +99,23 @@ const galleryItems = [
   },
 ];
 
+// Dummy wrappers for SectionWrapper and SectionTitle
+function SectionWrapper({ id, className, children }) {
+  return (
+    <section id={id} className={className}>
+      {children}
+    </section>
+  );
+}
+function SectionTitle({ title, subtitle }) {
+  return (
+    <div className="text-center mb-10">
+      <h2 className="text-3xl font-bold">{title}</h2>
+      <p className="text-gray-500">{subtitle}</p>
+    </div>
+  );
+}
+
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -154,10 +164,7 @@ export default function Gallery() {
       />
 
       {/* Category Filter */}
-      <MotionDiv
-        variant={fadeInUp}
-        className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12"
-      >
+      <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
         {categories.map((category) => (
           <button
             key={category}
@@ -171,23 +178,31 @@ export default function Gallery() {
             {category}
           </button>
         ))}
-      </MotionDiv>
+      </div>
 
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredItems.map((item, index) => (
-          <MotionCard
+          <div
             key={item.id}
-            delay={index * 0.1}
             className="group relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
             onClick={() => openLightbox(index)}
           >
             <div className="relative overflow-hidden">
-              <img
-                src={item.src}
-                alt={item.title}
-                className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-              />
+              <div className="w-full h-64 relative">
+                {/* <Image
+                  src={item.src}
+                  alt={item.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                /> */}
+                <img
+                  src={item.src}
+                  alt={item.title}
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
 
               {/* Video indicator */}
               {item.type === "video" && (
@@ -245,7 +260,7 @@ export default function Gallery() {
                 </span>
               </div>
             </div>
-          </MotionCard>
+          </div>
         ))}
       </div>
 
@@ -331,7 +346,7 @@ export default function Gallery() {
       )}
 
       {/* Call to action */}
-      <MotionDiv variant={fadeInUp} className="text-center mt-16">
+      <div className="text-center mt-16">
         <div className="bg-white rounded-2xl p-8 md:p-12">
           <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Want to be featured in our gallery?
@@ -344,7 +359,7 @@ export default function Gallery() {
             Follow Us on Instagram
           </button>
         </div>
-      </MotionDiv>
+      </div>
     </SectionWrapper>
   );
 }

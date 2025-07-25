@@ -1,14 +1,7 @@
+"use client";
 import { Star, Award, Users, Heart } from "lucide-react";
-import {
-  SectionWrapper,
-  SectionTitle,
-  MotionDiv,
-  MotionText,
-  MotionImage,
-  MotionCard,
-  fadeInLeft,
-  fadeInRight,
-} from "../motion/MotionComponents";
+import { SectionWrapper, SectionTitle } from "../motion/MotionComponents";
+import CountUp from "react-countup";
 
 const features = [
   {
@@ -38,18 +31,51 @@ const features = [
 ];
 
 const stats = [
-  { number: "2+", label: "Years of Experience" },
-  { number: "15,000+", label: "Happy Customers" },
-  { number: "50+", label: "Events Participated" },
-  { number: "4.9/5", label: "Customer Rating" },
+  { number: "2", suffix: "+", label: "Years of Experience" },
+  { number: "15", suffix: ",000+", label: "Happy Customers" },
+  { number: "50", suffix: "+", label: "Events Participated" },
+  { number: "4.9", suffix: "/5", label: "Customer Rating" },
 ];
+const statsCounter = () => {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {stats.map((stat, index) => (
+        <div
+          key={index}
+          className="text-center bg-white/20 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-[1.03]"
+        >
+          <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2 flex items-center justify-center">
+            {index < 3 ? (
+              <CountUp
+                start={0}
+                end={parseInt(stat.number)}
+                duration={3}
+                enableScrollSpy
+                scrollSpyDelay={200}
+                separator=","
+              />
+            ) : (
+              stat.number
+            )}
+            {stat.suffix && (
+              <span className="text-rose-100 ml-1">{stat.suffix}</span>
+            )}
+          </div>
+          <p className="text-rose-50 text-xs md:text-sm font-medium uppercase tracking-wider">
+            {stat.label}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export default function About() {
   return (
     <SectionWrapper id="about">
       <div className="grid lg:grid-cols-2 py-5 gap-12  lg:gap-16 items-center mb-[100px]">
         {/* Content */}
-        <MotionDiv variant={fadeInLeft} className="space-y-6">
+        <div className="space-y-6">
           {/* <div className="inline-block bg-rose-100 text-rose-600 px-4 py-2 rounded-full text-sm font-semibold">
             About Polar club
           </div> */}
@@ -77,38 +103,38 @@ export default function About() {
             </p>
           </div>
 
-          <MotionDiv className="flex gap-4 sm:text-sm md:text-base lg:text-lg flex-wrap justify-center">
+          <div className="flex gap-4 sm:text-sm md:text-base lg:text-lg flex-wrap justify-center">
             <div className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 py-3 rounded-full font-semibold">
               ✨ All Skill Levels Welcome
             </div>
             <div className="bg-gray-100 text-gray-700 px-6 py-3 rounded-full font-semibold">
               🛡️ Safety First Approach
             </div>
-          </MotionDiv>
-        </MotionDiv>
+          </div>
+        </div>
 
         {/* Images */}
-        <MotionDiv variant={fadeInRight} className="relative">
+        <div className="relative">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-4">
-              <MotionImage
+              <img
                 src="https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsNUOZ1mIM3KIyV2n8QoEGLmHaks6zedtA4XWb"
                 alt="Roller skating fun"
                 className="w-full h-48 object-cover rounded-xl shadow-lg"
               />
-              <MotionImage
+              <img
                 src="https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgs5MSX40ts0ema63BoWy7FZkGwuh1IXCrlM8HP"
                 alt="Skating lessons"
                 className="w-full h-56 object-cover rounded-xl shadow-lg"
               />
             </div>
             <div className="space-y-4 pt-8">
-              <MotionImage
+              <img
                 src="https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsogy5i7IbFLP7ExY3UN4uZmOk8WqBMXQSbT0C"
                 alt="Group skating"
                 className="w-full h-56 object-cover rounded-xl shadow-lg"
               />
-              <MotionImage
+              <img
                 src="https://wblgzh4kzr.ufs.sh/f/7tt8vDSbwXgsvuY8JLDC8jNr4fALeRaGnmUqPXbgZu2cYFp1"
                 alt="Skating equipment"
                 className="w-full h-48 object-cover rounded-xl shadow-lg"
@@ -128,7 +154,7 @@ export default function About() {
               </div>
             </div>
           </div>
-        </MotionDiv>
+        </div>
       </div>
 
       {/* Features Grid */}
@@ -137,13 +163,12 @@ export default function About() {
         subtitle="Experience the difference that quality, safety, and passion make"
       />
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16 ">
         {features.map((feature, index) => {
           const Icon = feature.icon;
           return (
-            <MotionCard
+            <div
               key={index}
-              delay={index * 0.1}
               className="text-center p-6 rounded-xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300"
             >
               <div className="w-16 h-16 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl flex items-center justify-center mx-auto mb-4">
@@ -155,13 +180,13 @@ export default function About() {
               <p className="text-gray-600 leading-relaxed">
                 {feature.description}
               </p>
-            </MotionCard>
+            </div>
           );
         })}
       </div>
 
-      {/* Stats */}
-      <MotionDiv className="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-8 md:p-12 text-white">
+      {/* Stats Counter */}
+      <div className="bg-gradient-to-r from-rose-500 to-pink-600 rounded-2xl p-8 md:p-12 text-white">
         <div className="text-center mb-8">
           <h3 className="text-2xl md:text-3xl font-bold mb-4">
             Our Impact in Numbers
@@ -170,20 +195,8 @@ export default function About() {
             Building Nairobi's skating community one roll at a time
           </p>
         </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <MotionCard key={index} delay={index * 0.1} className="text-center">
-              <div className="text-3xl md:text-4xl font-bold mb-2">
-                {stat.number}
-              </div>
-              <div className="text-rose-100 text-sm md:text-base">
-                {stat.label}
-              </div>
-            </MotionCard>
-          ))}
-        </div>
-      </MotionDiv>
+        {statsCounter()}
+      </div>
     </SectionWrapper>
   );
 }

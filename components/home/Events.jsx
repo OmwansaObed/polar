@@ -1,13 +1,4 @@
-"../motion/MotionComponents";
 import { Calendar, Clock, Users, MapPin, Star, ArrowRight } from "lucide-react";
-import {
-  SectionWrapper,
-  SectionTitle,
-  MotionDiv,
-  MotionCard,
-  MotionButton,
-  fadeInUp,
-} from "../motion/MotionComponents";
 
 const upcomingEvents = [
   {
@@ -103,9 +94,47 @@ const eventTypes = [
   },
 ];
 
+// Simple replacements for SectionWrapper, SectionTitle, Card, Button, Div
+function SectionWrapper({ id, className, children }) {
+  return (
+    <section id={id} className={className}>
+      {children}
+    </section>
+  );
+}
+function SectionTitle({ title, subtitle }) {
+  return (
+    <div className="mb-12 text-center">
+      <h2 className="text-4xl font-bold mb-2">{title}</h2>
+      <p className="text-gray-600 text-lg">{subtitle}</p>
+    </div>
+  );
+}
+function Card({ className, children, ...props }) {
+  return (
+    <div className={className} {...props}>
+      {children}
+    </div>
+  );
+}
+function Button({ className, children, ...props }) {
+  return (
+    <button className={className} {...props}>
+      {children}
+    </button>
+  );
+}
+function Div({ className, children, ...props }) {
+  return (
+    <div className={className} {...props}>
+      {children}
+    </div>
+  );
+}
+
 export default function Events() {
   return (
-    <SectionWrapper id="events" className="bg-gray-50">
+    <SectionWrapper id="events" className="md:py-24 bg-white">
       <SectionTitle
         title="Upcoming Events"
         subtitle="Join the fun! From themed nights to competitions, there's always something exciting happening at Polar club"
@@ -239,10 +268,7 @@ export default function Events() {
       </div> */}
 
       {/* Event Types */}
-      <MotionDiv
-        variant={fadeInUp}
-        className="bg-white rounded-2xl p-8 md:p-12"
-      >
+      <Div className="rounded-2xl p-8 md:p-12">
         <div className="text-center mb-12">
           <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
             Types of Events Participate In
@@ -255,9 +281,8 @@ export default function Events() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {eventTypes.map((type, index) => (
-            <MotionCard
+            <Card
               key={index}
-              delay={index * 0.1}
               className="text-center p-6 rounded-xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-rose-200 hover:shadow-lg transition-all duration-300"
             >
               <div className="text-4xl mb-4">{type.icon}</div>
@@ -267,16 +292,16 @@ export default function Events() {
               <p className="text-gray-600 text-sm leading-relaxed">
                 {type.description}
               </p>
-            </MotionCard>
+            </Card>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <MotionButton className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transition-all duration-300">
+          <Button className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg transition-all duration-300">
             View All Events
-          </MotionButton>
+          </Button>
         </div>
-      </MotionDiv>
+      </Div>
     </SectionWrapper>
   );
 }

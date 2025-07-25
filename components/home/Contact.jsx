@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from "lucide-react";
 
-// Mock motion components since they're imported but not available
+// Section wrapper and title (unchanged)
 const SectionWrapper = ({ children, id, className }) => (
   <section
     id={id}
@@ -16,17 +16,6 @@ const SectionTitle = ({ title, subtitle }) => (
     <h2 className="text-4xl font-bold text-gray-900 mb-4">{title}</h2>
     <p className="text-xl text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
   </div>
-);
-const MotionDiv = ({ children, className, variant, delay }) => (
-  <div className={className}>{children}</div>
-);
-const MotionCard = ({ children, className, delay }) => (
-  <div className={className}>{children}</div>
-);
-const MotionButton = ({ children, className, ...props }) => (
-  <button className={className} {...props}>
-    {children}
-  </button>
 );
 
 const contactInfo = [
@@ -108,7 +97,7 @@ export default function Contact() {
   };
 
   return (
-    <SectionWrapper id="contact" className="bg-gray-50">
+    <SectionWrapper id="contact" className="">
       <SectionTitle
         title="Get In Touch"
         subtitle="Ready to roll? Contact us to book your skating session or ask any questions"
@@ -116,14 +105,13 @@ export default function Contact() {
 
       <div className="grid lg:grid-cols-3 gap-12">
         {/* Contact Information */}
-        <MotionDiv className="lg:col-span-1">
+        <div className="lg:col-span-1">
           <div className="space-y-6">
             {contactInfo.map((info, index) => {
               const Icon = info.icon;
               return (
-                <MotionCard
+                <div
                   key={index}
-                  delay={index * 0.1}
                   className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <div className="flex items-start space-x-4">
@@ -147,16 +135,13 @@ export default function Contact() {
                       </button>
                     </div>
                   </div>
-                </MotionCard>
+                </div>
               );
             })}
           </div>
 
           {/* Operating Hours */}
-          <MotionCard
-            delay={0.5}
-            className="bg-white p-6 rounded-xl shadow-lg mt-6"
-          >
+          <div className="bg-white p-6 rounded-xl shadow-lg mt-6">
             <h3 className="font-bold text-lg text-gray-900 mb-4">
               Operating Hours
             </h3>
@@ -170,7 +155,7 @@ export default function Contact() {
                 </div>
               ))}
             </div>
-            <div className="mt-4 p-3 bg-rose-50 rounded-lg">
+            <div className="mt-4 p-3  rounded-lg">
               <p className="text-rose-600 text-sm font-medium">
                 💡 Pro Tip: Weekday evenings are less crowded!
               </p>
@@ -179,11 +164,11 @@ export default function Contact() {
               These are holiday hours, different from non-holiday hours. Non
               holiday hours are from 1:00 PM to 7:00 PM.
             </p>
-          </MotionCard>
-        </MotionDiv>
+          </div>
+        </div>
 
         {/* Contact Form */}
-        <MotionDiv className="lg:col-span-2">
+        <div className="lg:col-span-2">
           <div className="bg-white p-8 rounded-2xl shadow-xl">
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
@@ -196,7 +181,7 @@ export default function Contact() {
             </div>
 
             {!isSubmitted ? (
-              <div className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label
@@ -313,8 +298,8 @@ export default function Contact() {
                   </label>
                 </div>
 
-                <MotionButton
-                  onClick={handleSubmit}
+                <button
+                  type="submit"
                   disabled={isSubmitting}
                   className={`w-full py-4 px-6 rounded-lg font-bold text-white transition-all duration-300 flex items-center justify-center space-x-2 ${
                     isSubmitting
@@ -333,8 +318,8 @@ export default function Contact() {
                       <span>Send Message</span>
                     </>
                   )}
-                </MotionButton>
-              </div>
+                </button>
+              </form>
             ) : (
               <div className="text-center py-8">
                 <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
@@ -351,11 +336,11 @@ export default function Contact() {
               </div>
             )}
           </div>
-        </MotionDiv>
+        </div>
       </div>
 
       {/* Map Section */}
-      <MotionDiv className="mt-16" delay={0.8}>
+      <div className="mt-16">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="bg-gradient-to-r from-rose-500 to-pink-600 text-white p-6">
             <h3 className="text-2xl font-bold mb-2">Find Us</h3>
@@ -377,10 +362,10 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </MotionDiv>
+      </div>
 
       {/* Quick Contact Bar */}
-      <MotionDiv className="mt-12" delay={1.0}>
+      <div className="mt-12">
         <div className="bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-2xl p-8">
           <div className="text-center mb-6">
             <h3 className="text-2xl font-bold mb-2">
@@ -411,7 +396,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </MotionDiv>
+      </div>
     </SectionWrapper>
   );
 }
