@@ -1,7 +1,7 @@
 "use client";
 import { Star, Award, Users, Heart } from "lucide-react";
 import { SectionWrapper, SectionTitle } from "../motion/MotionComponents";
-import CountUp from "react-countup";
+import { useState, useEffect, useRef } from "react";
 
 const features = [
   {
@@ -36,31 +36,103 @@ const stats = [
   { number: "50", suffix: "+", label: "Events Participated" },
   { number: "4.9", suffix: "/5", label: "Customer Rating" },
 ];
-const statsCounter = () => {
+
+// Custom React Counter Hook
+const useCounter = (end, duration = 2000, shouldStart = false) => {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    if (!shouldStart || hasAnimated) return;
+
+    setHasAnimated(true);
+    const startTime = Date.now();
+    const startValue = 0;
+    const endValue = parseInt(end);
+
+    const animate = () => {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Easing function for smooth animation
+      const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+      const currentValue = Math.floor(
+        startValue + (endValue - startValue) * easeOutCubic
+      );
+
+      setCount(currentValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }, [end, duration, shouldStart, hasAnimated]);
+
+  return count;
+};
+
+// Individual Counter Component
+const Counter = ({ stat, index, isVisible }) => {
+  const count = useCounter(stat.number, 2500, isVisible);
+
+  const formatNumber = (num) => {
+    if (num >= 1000) {
+      return (num / 1000).toFixed(0) + ",000";
+    }
+    return num.toString();
+  };
+
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+    <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2 flex items-center justify-center">
+      {index < 3 ? (
+        <>{index === 1 ? formatNumber(count) : count}</>
+      ) : (
+        stat.number
+      )}
+      {stat.suffix && <span className="text-rose-100 ml-1">{stat.suffix}</span>}
+    </div>
+  );
+};
+
+const StatsCounter = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const statsRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+
+    return () => {
+      if (statsRef.current) {
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={statsRef}
+      className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
+    >
       {stats.map((stat, index) => (
         <div
           key={index}
           className="text-center bg-white/20 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-white/30 hover:bg-white/30 transition-all duration-300 hover:scale-[1.03]"
         >
-          <div className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2 flex items-center justify-center">
-            {index < 3 ? (
-              <CountUp
-                start={0}
-                end={parseInt(stat.number)}
-                duration={3}
-                enableScrollSpy
-                scrollSpyDelay={200}
-                separator=","
-              />
-            ) : (
-              stat.number
-            )}
-            {stat.suffix && (
-              <span className="text-rose-100 ml-1">{stat.suffix}</span>
-            )}
-          </div>
+          <Counter stat={stat} index={index} isVisible={isVisible} />
           <p className="text-rose-50 text-xs md:text-sm font-medium uppercase tracking-wider">
             {stat.label}
           </p>
@@ -76,10 +148,6 @@ export default function About() {
       <div className="grid lg:grid-cols-2 py-5 gap-12  lg:gap-16 items-center mb-[100px]">
         {/* Content */}
         <div className="space-y-6">
-          {/* <div className="inline-block bg-rose-100 text-rose-600 px-4 py-2 rounded-full text-sm font-semibold">
-            About Polar club
-          </div> */}
-
           <h2 className="text-3xl py-4 text-center md:text-4xl lg:text-5xl font-bold text-gray-900">
             Nairobi's Premier
             <span className="block bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
@@ -195,7 +263,7 @@ export default function About() {
             Building Nairobi's skating community one roll at a time
           </p>
         </div>
-        {statsCounter()}
+        <StatsCounter />
       </div>
     </SectionWrapper>
   );
