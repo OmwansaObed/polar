@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  id                String  @id @db.VarChar(255)
+  userId            String  @db.VarChar(255)
+  type              String  @db.VarChar(255)
+  provider          String  @db.VarChar(255)
+  providerAccountId String  @db.VarChar(255)
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        BigInt?
+  token_type        String? @db.VarChar(255)
+  scope             String? @db.VarChar(255)
+  id_token          String? @db.Text
+  session_state     String? @db.VarChar(255)
+  users             users   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@unique([provider, providerAccountId], map: "provider_providerAccountId")
+  @@index([userId], map: "userId")
+}
+
+model bookings {
+  id             Int              @id @default(autoincrement())
+  customer_name  String?          @db.VarChar(255)
+  customer_phone String?          @db.VarChar(20)
+  customer_email String?          @db.VarChar(100)
+  session_type   String?          @db.VarChar(100)
+  date           DateTime?        @db.Date
+  time           DateTime?        @db.Time(0)
+  participants   Int?
+  add_ons        Json?        
+  total_amount   Decimal?         @db.Decimal(10, 2)
+  status         bookings_status? @default(pending)
+  created_at     DateTime         @default(now()) @db.Timestamp(0)
+  payments       payments[]
+}
+
+model payments {
+  id                        Int              @id @default(autoincrement())
+  booking_id                Int?
+  phone                     String?          @db.VarChar(20)
+  amount                    Decimal?         @db.Decimal(10, 2)
+  status                    payments_status? @default(pending)
+  mpesa_checkout_request_id String?          @db.VarChar(255)
+  created_at                DateTime         @default(now()) @db.Timestamp(0)
+  bookings                  bookings?        @relation(fields: [booking_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "payments_ibfk_1")
+
+  @@index([booking_id], map: "booking_id")
+}
+
+model sessions {
+  id           String   @id @db.VarChar(255)
+  sessionToken String   @unique(map: "sessionToken") @db.VarChar(255)
+  userId       String   @db.VarChar(255)
+  expires      DateTime @db.DateTime(0)
+  users        users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict)
+
+  @@index([userId], map: "userId")
+}
+
+model users {
+  id            String     @id @default(cuid())
+  name          String?    @db.VarChar(255)
+  email         String?    @unique(map: "email") @db.VarChar(255)
+  emailVerified DateTime?  @db.DateTime(0)
+  password      String?    @db.VarChar(255)
+  createdAt     DateTime?  @default(now()) @db.DateTime(0)
+  updatedAt     DateTime?  @default(now()) @db.DateTime(0)
+  accounts      accounts[]
+  sessions      sessions[]
+}
+
+model verification_tokens {
+  token      String   @id @db.VarChar(255)
+  identifier String   @db.VarChar(255)
+  expires    DateTime @db.DateTime(0)
+
+  @@unique([identifier, token], map: "identifier_token")
+}
+
+enum payments_status {
+  pending
+  success
+  failed
+}
+
+enum bookings_status {
+  pending
+  confirmed
+  cancelled
+}

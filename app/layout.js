@@ -2,7 +2,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Toaster } from "sonner";
+import { Toaster } from "react-hot-toast";
+import Providers from "@/lib/providers/SessionProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,13 +23,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <>
+    <Providers>
       <Navbar />
-      <Toaster position="bottom-right" />
+      <Toaster />
       <html lang="en" className={poppins.variable}>
         <body className="antialiased">{children}</body>
       </html>
       <Footer />
-    </>
+    </Providers>
   );
 }

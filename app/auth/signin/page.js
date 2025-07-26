@@ -9,6 +9,10 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,6 +20,7 @@ export default function Login() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,29 +43,53 @@ export default function Login() {
     setIsLoading(true);
     setMessage({ type: "", text: "" });
 
-    // Simulate API call
-    setTimeout(() => {
-      if (isLogin) {
-        setMessage({
-          type: "success",
-          text: "Welcome back! Redirecting to your dashboard...",
-        });
-      } else {
-        if (formData.password !== formData.confirmPassword) {
-          setMessage({
-            type: "error",
-            text: "Passwords do not match!",
-          });
-          setIsLoading(false);
-          return;
-        }
-        setMessage({
-          type: "success",
-          text: "Account created successfully! Please check your email to verify.",
-        });
-      }
+    if (!isLogin && formData.password !== formData.confirmPassword) {
+      setMessage({ type: "error", text: "Passwords do not match" });
       setIsLoading(false);
-    }, 1500);
+      return;
+    }
+    try {
+      if (isLogin) {
+        const res = await signIn("credentials", {
+          redirect: false,
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (res?.error) {
+          setMessage({ type: "error", text: res.error });
+          toast.error(res.error);
+          setIsLoading(false);
+        }
+        if (res?.ok) {
+          setMessage({ type: "success", text: "Login successful!" });
+          toast.success("Login successful!");
+          router.push("/");
+        }
+      } else {
+        const response = await axios.post("/api/auth/register", {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+        if (response.status === 200) {
+          setMessage({
+            type: "success",
+            text: "Registration successful, Verify your email",
+          });
+        } else {
+          setMessage({ type: "error", text: "Registration failed" });
+        }
+      }
+    } catch (error) {
+      console.error("Error during authentication:", error);
+      setMessage({
+        type: "error",
+        text: error?.response?.data?.error || "An error occurred",
+      });
+      toast.error(error?.response?.data?.error || "An error occurred");
+    }
+    setIsLoading(false);
   };
 
   const toggleMode = () => {
@@ -92,7 +121,7 @@ export default function Login() {
           {/* Header */}
           <div className="bg-gradient-to-r from-rose-500 to-pink-600 px-8 py-12 text-center">
             <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
-              <div className="text-3xl font-bold text-white">P</div>
+              <div className="text-3xl font-bold text-rose-500">P</div>
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Polar Club</h1>
             <p className="text-rose-100">
