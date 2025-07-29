@@ -16,6 +16,8 @@ import SuccessWrapper from "@/components/booking/SuccessWrapper";
 import axios from "axios";
 import { toast } from "sonner";
 import FailureWrapper from "@/components/booking/mpesa/FailureWrapper";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 // Reusing the same section components from your contact page
 const SectionWrapper = ({ children, id, className }) => (
@@ -114,6 +116,15 @@ export default function Booking() {
 
   const [paymentFailed, setPaymentFailed] = useState(false);
   const [paymentError, setPaymentError] = useState("");
+  const router = useRouter();
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session) {
+      toast.warning("Please sign in to book a session");
+      router.push("/auth/signin");
+    }
+  }, [session]);
 
   useEffect(() => {
     let pollInterval;
@@ -213,8 +224,6 @@ export default function Booking() {
       console.log("Sending paymentData:", paymentData);
 
       const response = await axios.post("/api/mpesa/stk-push", paymentData);
-
-      console.log("Payment API response:", response.data);
 
       if (
         response.data.ResponseCode === "0" ||

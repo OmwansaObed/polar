@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 // Section wrapper and title (unchanged)
 const SectionWrapper = ({ children, id, className }) => (
@@ -65,6 +66,18 @@ export default function Contact() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      setFormData((prev) => ({
+        ...prev,
+        name: session?.user.name || "",
+        email: session?.user.email || "",
+      }));
+    }
+  }, [session]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

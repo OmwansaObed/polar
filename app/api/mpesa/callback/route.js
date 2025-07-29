@@ -22,9 +22,9 @@ export async function POST(request) {
     const status = ResultCode === 0 ? "success" : "failed";
 
     const result = await db.query(
-      `UPDATE payments 
+      `UPDATE payment
        SET status = ? 
-       WHERE mpesa_checkout_request_id = ?`,
+       WHERE mpesaCheckoutRequestId = ?`,
       [status, CheckoutRequestID]
     );
 

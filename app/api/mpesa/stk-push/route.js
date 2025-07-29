@@ -35,7 +35,7 @@ export async function POST(request) {
 
     // 1️⃣ Save Booking to DB
     const [bookingResult] = await db.execute(
-      `INSERT INTO bookings (session_type, date, time, participants, customer_name, customer_phone, customer_email, add_ons, total_amount)
+      `INSERT INTO booking (sessionType, date, time, participants, customerName, customerPhone, customerEmail, addOns, totalAmount)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         bookingDetails.sessionType,
@@ -88,7 +88,7 @@ export async function POST(request) {
 
     // 3️⃣ Save Payment (Pending)
     await db.execute(
-      `INSERT INTO payments (booking_id, phone, amount, status, mpesa_checkout_request_id)
+      `INSERT INTO payment (bookingId, phone, amount, status, mpesaCheckoutRequestId)
        VALUES (?, ?, ?, 'pending', ?)`,
       [bookingId, formattedPhone, amount, CheckoutRequestID]
     );

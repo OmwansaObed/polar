@@ -1,9 +1,11 @@
-import { Poppins } from "next/font/google";
+// app/layout.js
 import "./globals.css";
+import { Poppins } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Toaster } from "react-hot-toast";
-import Providers from "@/lib/providers/SessionProvider";
+import Providers from "@/lib/providers/SessionProvider"; // NextAuth provider
+import ReduxProvider from "@/redux/reduxProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -23,13 +25,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <Providers>
-      <Navbar />
-      <Toaster />
-      <html lang="en" className={poppins.variable}>
-        <body className="antialiased">{children}</body>
-      </html>
-      <Footer />
-    </Providers>
+    <html lang="en" className={poppins.variable}>
+      <body className="antialiased">
+        <ReduxProvider>
+          <Providers>
+            <Navbar />
+            <Toaster />
+            {children}
+            <Footer />
+          </Providers>
+        </ReduxProvider>
+      </body>
+    </html>
   );
 }

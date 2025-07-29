@@ -9,6 +9,7 @@ import {
   Award,
   Info,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 // Mock framer-motion for demo (you'll use the real one)
 const motion = {
@@ -53,6 +54,7 @@ export default function HeroSection() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+  const router = useRouter();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -63,21 +65,6 @@ export default function HeroSection() {
           <div className="w-full h-full bg-gradient-to-br from-rose-500 via-pink-500 to-purple-600 opacity-80">
             <div className="absolute inset-0 bg-black/30"></div>
           </div>
-
-          {/* Uncomment and use this for actual video */}
-          {/*
-          <video
-            className="w-full h-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            onLoadedData={() => setIsVideoLoaded(true)}
-          >
-            <source src="/your-video.mp4" type="video/mp4" />
-            <source src="/your-video.webm" type="video/webm" />
-          </video>
-          */}
         </div>
 
         {/* Overlay */}
@@ -94,17 +81,6 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
-        {/* <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="mb-6"
-        >
-          <span className="inline-block bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-2 text-sm font-medium mb-6">
-            🎉 Grand Opening Special - 50% Off First Visit
-          </span>
-        </motion.div> */}
-
         <motion.h1
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
@@ -141,20 +117,22 @@ export default function HeroSection() {
             className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl hover:shadow-rose-500/25 transition-all duration-300 flex items-center space-x-3 group"
           >
             <Calendar size={20} />
-            <span>Book Your Session</span>
+            <span onClick={() => router.push("/booking")}>
+              Book Your Session
+            </span>
             <div className="w-0 group-hover:w-2 transition-all duration-300 overflow-hidden">
               <div className="w-2 h-2 bg-white rounded-full"></div>
             </div>
           </motion.button>
 
-          <motion.button
+          {/* <motion.button
             whilehover={{ scale: 1.05 }}
             whiletap={{ scale: 0.95 }}
             className="bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 flex items-center space-x-3"
           >
             <Info size={20} />
             <span>About Us</span>
-          </motion.button>
+          </motion.button> */}
         </motion.div>
 
         {/* Animated Stats */}

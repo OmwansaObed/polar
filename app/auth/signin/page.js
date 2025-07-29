@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Eye,
   EyeOff,
@@ -9,10 +9,12 @@ import {
   CheckCircle,
   AlertCircle,
 } from "lucide-react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession, getSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/userSlice";
 
 export default function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -20,7 +22,16 @@ export default function Login() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, [session]);
+
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +40,8 @@ export default function Login() {
     confirmPassword: "",
     rememberMe: false,
   });
+
+  useEffect(() => {}, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -48,6 +61,7 @@ export default function Login() {
       setIsLoading(false);
       return;
     }
+
     try {
       if (isLogin) {
         const res = await signIn("credentials", {
@@ -57,39 +71,98 @@ export default function Login() {
         });
 
         if (res?.error) {
-          setMessage({ type: "error", text: res.error });
-          toast.error(res.error);
-          setIsLoading(false);
-        }
-        if (res?.ok) {
+          // Map NextAuth errors to user-friendly messages
+          let errorMessage;
+          switch (res.error) {
+            case "CredentialsSignin":
+              errorMessage = "Invalid email or password";
+              break;
+            case "Email and password are required":
+              errorMessage = "Please fill in all fields";
+              break;
+            case "No user found with this email":
+              errorMessage = "No account found with this email";
+              break;
+            case "Invalid password":
+              errorMessage = "Incorrect password";
+              break;
+            case "Please sign in with your social account":
+              errorMessage =
+                "This email is linked to a social account. Please use Google or Facebook to sign in.";
+              break;
+            default:
+              errorMessage = res.error;
+          }
+
+          setMessage({ type: "error", text: errorMessage });
+          toast.error(errorMessage);
+        } else if (res?.ok) {
           setMessage({ type: "success", text: "Login successful!" });
           toast.success("Login successful!");
+
+          // Get the session after successful login
+          const session = await getSession();
+          if (session?.user) {
+            dispatch(setUser(session.user));
+          }
+
           router.push("/");
+        } else {
+          setMessage({ type: "error", text: "An unexpected error occurred" });
+          toast.error("An unexpected error occurred");
         }
       } else {
+        // Registration logic remains the same
         const response = await axios.post("/api/auth/register", {
           name: formData.name,
           email: formData.email,
           password: formData.password,
         });
-        if (response.status === 200) {
+
+        if (!response.data.error) {
           setMessage({
             type: "success",
             text: "Registration successful, Verify your email",
           });
+          toast.success("Registration successful, Verify your email");
+          setFormData({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+          router.push("/auth/signin");
         } else {
-          setMessage({ type: "error", text: "Registration failed" });
+          setMessage({
+            type: "error",
+            text: response.data.error || "Registration failed",
+          });
+          toast.error(response.data.error || "Registration failed");
         }
       }
     } catch (error) {
       console.error("Error during authentication:", error);
-      setMessage({
-        type: "error",
-        text: error?.response?.data?.error || "An error occurred",
-      });
-      toast.error(error?.response?.data?.error || "An error occurred");
+      const errorMessage = error?.response?.data?.error || "An error occurred";
+      setMessage({ type: "error", text: errorMessage });
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
+  };
+  const handleSocialSignIn = async (provider) => {
+    setIsLoading(true);
+    setMessage({ type: "", text: "" });
+
+    try {
+      await signIn(provider, {
+        redirect: false,
+      });
+    } catch (error) {
+      console.error(`Error during ${provider} authentication:`, error);
+      toast.error("An error occurred during sign in");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleMode = () => {
@@ -368,6 +441,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl bg-white hover:bg-gray-50 transition-all duration-200 hover:shadow-md"
+                  onClick={() => handleSocialSignIn("google")}
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
                     <path
@@ -395,6 +469,7 @@ export default function Login() {
                 <button
                   type="button"
                   className="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-xl bg-white hover:bg-gray-50 transition-all duration-200 hover:shadow-md"
+                  onClick={() => handleSocialSignIn("facebook")}
                 >
                   <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />

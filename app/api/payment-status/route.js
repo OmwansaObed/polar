@@ -15,7 +15,7 @@ export async function GET(request) {
 
   try {
     const [rows] = await db.query(
-      "SELECT status FROM payments WHERE mpesa_checkout_request_id = ?",
+      "SELECT status FROM payment WHERE mpesaCheckoutRequestId = ?",
       [checkoutRequestId]
     );
 
