@@ -156,6 +156,7 @@ export default function Login() {
     try {
       await signIn(provider, {
         redirect: false,
+        callbackUrl: "/",
       });
     } catch (error) {
       console.error(`Error during ${provider} authentication:`, error);

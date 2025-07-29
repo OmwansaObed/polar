@@ -61,7 +61,7 @@ const MyBookings = () => {
       setBookings(response.data.bookings || []);
     } catch (err) {
       console.error("Error fetching bookings:", err);
-      setError(err.message || "Failed to load bookings");
+      setError(err.response?.data.message || "Failed to load bookings");
     } finally {
       setLoading(false);
     }
