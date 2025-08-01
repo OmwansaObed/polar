@@ -185,6 +185,19 @@ export default function Booking() {
       }
     };
   }, [CheckoutRequestID, isPolling]);
+  // fetch contact info
+  useEffect(() => {
+    if (session) {
+      setBookingData((prev) => ({
+        ...prev,
+        customerInfo: {
+          ...prev.customerInfo,
+          name: session.user.name || "",
+          email: session.user.email || "",
+        },
+      }));
+    }
+  }, [session]);
 
   // Add a retry function
   const handleRetry = () => {
@@ -230,17 +243,18 @@ export default function Booking() {
         response.data.message === "Payment initiated"
       ) {
         const { CheckoutRequestID: requestId } = response.data?.data || {};
-        console.log("CHeckoutRequestId", CheckoutRequestID);
         setCheckoutRequestID(requestId);
         setIsPolling(true);
         setPaymentStatus("PENDING");
 
+        console.log("CHeckoutRequestId", CheckoutRequestID);
+
         toast.success(
           "Payment request sent to your phone. Please complete the M-Pesa transaction."
         );
-        console.log("Payment request sent, CheckoutRequestID:", requestId);
       } else {
         console.error("Payment initiation failed:", response.data);
+        toast.error(response.data.message || "Payment initiation failed");
         throw new Error(response.data.message || "Payment initiation failed");
       }
     } catch (error) {
